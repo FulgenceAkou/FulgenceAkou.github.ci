@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class ="container mt-3 mb-5">
+    <div class="row">
+        <div class="col-sm-4">
+            <h4 class="text-center alert alert alert-info">Enregistrer un participant</h4>
+                <form action="" method="POST">
+                 {% csrf_token %}
+                 {{form.as_p}}
+                    <button type="submit" class="btn btn-success">Ajouter</button>
+                </form>
+        </div>
+            <div class="col-sm-8">
+                <h4 class="text-center alert alert alert-info"> Montrer les infonrmaton sur les participants</h4>
+                {% if stu %}
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nom du participant</th>
+                        <th scope="col">Prenom du participant</th>
+                        <th scope="col">Numero de téléphone</th>
+                        <th scope="col">Adresse Email</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for st in stu %}
+                      <tr>
+                        <th scope="row">{{st.id}}</th>
+                        <td>{{st.nom}}</td>
+                        <td>{{st.prénom}}</td>
+                        <td>{{st.numéro}}</td>
+                        <td>{{st.adresse_email}}</td>
+                            <td> <a href="{% url 'updatedata' st.id %}" class="btn btn-warning btn-sm">Modifier</a></td>
+                            <td><form action="{% url 'deletedata' st.id %}" method="post"> {% csrf_token %}
+                                <input type="submit" class="btn btn-danger" value="Supprimer">
+                            </form></td>
+                            
+                      </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                {% else %}
+                <h4 class="text-center alert alert-warning">Pas d'enregistrement</h4>
+                {% endif %}
+            
+            </div>
+        </div>
+</div>
+
+{% endblock %}
